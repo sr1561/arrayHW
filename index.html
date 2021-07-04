@@ -1,1 +1,145 @@
+<!DOCTYPE html>
+<html>
+<body>
+<div id="myDiv"></div>
+<div>
+    <button id ="Top" onclick=topFunc()><<</button>
+    <button id ="Back" onclick=backFunc()><</button>
+    <button id ="posit">1 of 20</button>
+    <button id ="Forward" onclick=forwardFunc()>></button>
+    <button id ="Bottm" onclick=bottomFunc()>>></button>
+    <button id ="Add" onclick=addFunc()>+</button>
+    <button id ="Remove" onclick=removeFunc()>-</button>
+    <button id ="Search" onclick=searchFunc()>Search</button>
+</div>
 
+<script>
+        let pos=0
+        let student1 = [
+            1,
+            `First`,
+            `ttt@gmail.com`,
+            972524444444
+        ]
+ 
+        let student2 = [
+            2,
+            `Second`,
+            `ttt@gmail.com`,
+            972524444444
+        ]
+        let student3 = [
+            3,
+            `Third`,
+            `ttt@gmail.com`,
+            972524444444
+        ]
+        let students = [student1,student2,student3]
+    drawCard(student1)
+    function drawCard(arr){
+        let card ={
+            img: arr[0],
+            Name: arr[1],
+            email:arr[2],
+            tel: arr[3]
+        }
+      myDiv.innerHTML=`  <div class="card" style="width: 18rem;">
+        <img src="Images/${card.img}.jpg" class="card-img-top" alt="..." style="width:200px;height:200px; border-radius: 50%;">
+        <div class="card-body">
+          <h5 class="card-title">${card.Name}</h5>
+          <p class="card-text"> eMail:${card.email} <br> Tel ${card.tel}</p>
+        </div>
+      </div>`
+      positionFunc()
+    }
+    function topFunc(){
+        pos=0
+        drawCard(students[pos])
+        positionFunc()
+    }
+    function bottomFunc(){
+        pos =students.length
+        drawCard(students[--pos])
+    }
+    function forwardFunc(){
+        if (pos == students.length)
+            return
+        else
+          drawCard(students[++pos])
+    }
+    function positionFunc(){
+        posit.innerText= `${pos+1} of ${students.length}`
+    }
+    function backFunc(){
+        if (pos == 0)
+            return
+        else
+          drawCard(students[--pos])
+    }
+    function addFunc(){
+        // <label for="fimage">Upload image:</label><br>
+        // <input type="file" id="myImage" name="filename"><br><br>
+        myDiv.innerHTML=`<form id="my-form">
+        <!-- form fields etc here -->
+        <label for="fname">Your name:</label><br>
+        <input type="text" id="myname" value="John"><br><br>
+        <label for="Mail">eMail address</label><br>
+        <input type="text" id="myemail" value="address@mail.com"><br><br>
+        <label for="Tel">Telephone number</label><br>
+        <input type="text" id="mytel" value="050-1234567"><br><br>
+        <button onclick=processForm()>Done</button>
+        </form>`
+    }
+    function processForm() {
+            
+            /* collect form data into array */
+            var student=[
+            4,
+            myname.value,
+            myemail.value,
+            Number(mytel.value)
+            ]
+        students.push(student)
+        drawCard(student) 
+        return    
+        }
+    function removeFunc()
+    {
+        students.splice(pos,1)
+        if (pos==0)
+        drawCard (students[pos])
+        else
+        drawCard (students[--pos])
+    }
+    function searchFunc()
+    {
+        myDiv.innerHTML=
+        `<form id="my-form">
+        <!-- form fields etc here -->
+        <label for="fsearch">Type text to search:</label><br>
+        <input id="text" value"write what to search"></input>
+        <button onclick=searchArray()>Search now</button>
+        </form>`
+    }
+    function searchArray()
+    {
+       for (i=0 ; i<students.length; i++)
+        {        
+            let temp =students[i]
+            for (j=0; j<temp.length;j++)
+            {
+                let str = String (temp[j])
+            if (str.search(text.value)!=-1)
+                {
+                    pos=i
+                    drawCard(students[i])
+                    return
+                }
+             }
+         }
+        myDiv.innerHTML+= `<h1>Didn't find</h1>`
+        return
+    }
+</script>
+</body>
+</html>
